@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border selection:bg-white/10 selection:text-white;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    background-image: radial-gradient(rgba(139, 92, 246, 0.15) 1px, transparent 0),
+                     radial-gradient(rgba(14, 165, 233, 0.15) 1px, transparent 0);
+    background-size: 50px 50px;
+    background-position: 0 0, 25px 25px;
+    overflow-x: hidden;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neon-purple/50 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neon-blue/80;
+  }
+
+  h1, h2, h3 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)];
+  }
+  
+  .neon-border {
+    @apply relative before:absolute before:inset-0 before:p-[1px] before:rounded-lg before:bg-gradient-to-r before:from-neon-purple before:via-neon-blue before:to-neon-pink before:opacity-70 before:-z-10;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-neon-purple via-neon-blue to-neon-pink bg-clip-text text-transparent;
+  }
+  
+  .nav-link {
+    @apply relative overflow-hidden text-muted-foreground hover:text-white transition-colors duration-200;
+  }
+  
+  .nav-link::after {
+    @apply content-[''] absolute w-full h-[2px] bg-neon-purple -bottom-0 left-0 transform scale-x-0 origin-bottom-right transition-transform duration-200;
+  }
+  
+  .nav-link:hover::after {
+    @apply transform scale-x-100 origin-bottom-left;
+  }
+  
+  .typewriter {
+    @apply overflow-hidden whitespace-nowrap border-r-2 border-neon-purple;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+  
+  .highlight {
+    @apply relative inline-block;
+  }
+  
+  .highlight::before {
+    @apply content-[''] absolute w-full h-[30%] -z-10 bottom-0 left-0 bg-neon-purple/25 transform translate-y-2 skew-x-12;
+  }
+  
+  .skill-tag {
+    @apply text-xs px-3 py-1 rounded-full glass-card text-white shadow-sm hover:shadow-neon-purple/50 transition-shadow duration-200;
+  }
+
+  .grid-layout {
+    @apply relative;
+    background-size: 25px 25px;
+    background-image: linear-gradient(to right, rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+                     linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+  }
+  
+  /* Fixed circular dependency by directly using the animation properties instead of self-reference */
+  .glow-effect {
+    text-shadow: 0 0 5px #8B5CF6, 0 0 15px #8B5CF6, 0 0 20px #8B5CF6;
+    animation: glow 2s ease-in-out infinite;
+  }
+  
+  .project-card {
+    @apply glass-card rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-neon-purple/20;
+  }
+  
+  .contact-input {
+    @apply w-full rounded-md border-0 bg-secondary px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-neon-purple transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .glass-morphism {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)];
+  }
+  
+  .neo-blur {
+    @apply backdrop-blur-2xl bg-black/40 border border-white/10;
+  }
+}
+
+/* Add keyframes for the glow and float animations */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #8B5CF6, 0 0 15px #8B5CF6, 0 0 20px #8B5CF6;
+  }
+  50% {
+    text-shadow: 0 0 10px #8B5CF6, 0 0 25px #8B5CF6, 0 0 30px #8B5CF6;
+  }
+  100% {
+    text-shadow: 0 0 5px #8B5CF6, 0 0 15px #8B5CF6, 0 0 20px #8B5CF6;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}

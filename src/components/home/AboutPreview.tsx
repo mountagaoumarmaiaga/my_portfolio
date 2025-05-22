@@ -27,7 +27,7 @@ const AboutPreview = () => {
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div>
                 <div className="text-2xl font-bold text-neon-purple mb-1">
-                  1+
+                  3+
                 </div>
                 <div className="text-sm text-muted-foreground">
                   Années d'expérience

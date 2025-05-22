@@ -51,10 +51,12 @@ export function BarreDeNavigation() {
                 {lien.nom}
               </Link>
             ))}
+            <a href="/CV.pdf" download>
             <Button size="sm" variant="outline" className="group neon-border">
               CV
               <Download size={16} className="ml-2 group-hover:animate-bounce" />
             </Button>
+            </a>
           </nav>
         )}
 
@@ -85,10 +87,12 @@ export function BarreDeNavigation() {
                 {lien.nom}
               </Link>
             ))}
+            <a href="/CV.pdf" download>
             <Button size="sm" variant="outline" className="neon-border mt-2">
               CV
               <Download size={16} className="ml-2" />
             </Button>
+            </a>
           </div>
         </nav>
       )}

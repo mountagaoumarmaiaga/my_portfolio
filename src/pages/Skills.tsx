@@ -141,11 +141,8 @@ const Skills = () => {
                 "Postman",
                 "Docker",
                 "Jupyter",
-                "Google Cloud",
-                "AWS",
-                "Slack",
-                "Notion",
-                "JIRA",
+                
+               
               ].map((tool, idx) => (
                 <motion.div
                   key={idx}

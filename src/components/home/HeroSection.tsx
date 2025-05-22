@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Download } from "lucide-react";
 import { Link } from "react-router-dom";
-
 
 const titresDynamique = [
   "Développeur Full-Stack",
@@ -11,28 +10,16 @@ const titresDynamique = [
 ];
 
 const HeroSection = () => {
-  const [indexTitre, setIndexTitre] = useState(0);
-  const [titreAffiche, setTitreAffiche] = useState(titresDynamique[0]);
-  const [suppressionEnCours, setSuppressionEnCours] = useState(false);
   const [boucleNum, setBoucleNum] = useState(0);
   const [texte, setTexte] = useState("");
   const [delta, setDelta] = useState(200 - Math.random() * 100);
+  const [suppressionEnCours, setSuppressionEnCours] = useState(false);
   const periode = 2000;
 
-  useEffect(() => {
-    let ticker = setInterval(() => {
-      tick();
-    }, delta);
-
-    return () => {
-      clearInterval(ticker);
-    };
-  }, [texte, delta, suppressionEnCours, titreAffiche]);
-
-  const tick = () => {
-    let i = boucleNum % titresDynamique.length;
-    let texteComplet = titresDynamique[i];
-    let texteMisAJour = suppressionEnCours
+  const tick = useCallback(() => {
+    const i = boucleNum % titresDynamique.length;
+    const texteComplet = titresDynamique[i];
+    const texteMisAJour = suppressionEnCours
       ? texteComplet.substring(0, texte.length - 1)
       : texteComplet.substring(0, texte.length + 1);
 
@@ -50,11 +37,18 @@ const HeroSection = () => {
       setBoucleNum(boucleNum + 1);
       setDelta(500);
     }
-  };
+  }, [boucleNum, suppressionEnCours, texte.length]);
+
+  useEffect(() => {
+    const ticker = setInterval(tick, delta);
+    return () => {
+      clearInterval(ticker);
+    };
+  }, [tick, delta]);
 
   return (
     <section className="min-h-screen flex items-center justify-center pt-28 pb-10 px-4 relative overflow-hidden">
-      {/* Effets lumineux en arrière-plan */}
+      {/* Background light effects */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-neon-purple/20 blur-[100px] -z-10"></div>
       <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-neon-blue/20 blur-[100px] -z-10"></div>
 
@@ -79,9 +73,11 @@ const HeroSection = () => {
                 Voir mes projets <ArrowRight className="ml-2" size={18} />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="neon-border">
-              Télécharger mon CV <Download className="ml-2" size={18} />
-            </Button>
+            <a href="/CV.pdf" download>
+              <Button size="lg" variant="outline" className="neon-border">
+                Télécharger mon CV <Download className="ml-2" size={18} />
+              </Button>
+            </a>
           </div>
 
           <div className="mt-10 flex items-center gap-2 text-sm text-muted-foreground">
@@ -95,7 +91,6 @@ const HeroSection = () => {
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-neon-purple via-neon-blue to-neon-pink opacity-30 blur-md animate-pulse-glow"></div>
             <div className="absolute inset-2 rounded-full bg-gray-900 flex items-center justify-center overflow-hidden">
               <div className="text-5xl font-bold">
-                {/* Remplacez par une véritable image/avatar */}
                 <div className="grid-layout w-full h-full text-9xl flex items-center justify-center text-neon-purple glow-effect">
                   <img
                     src="/mountaga.png"

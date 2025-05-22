@@ -21,7 +21,7 @@ const About = () => {
             <p className="text-muted-foreground mb-4">
               Je suis un développeur full-stack et un data scientist passionné
               par la création de solutions numériques innovantes qui résolvent
-              des problèmes concrets. Avec plus de 5 ans d'expérience dans
+              des problèmes concrets. Avec plus de 3 ans d'expérience dans
               divers secteurs, je me spécialise dans la création d'applications
               évolutives et performantes qui exploitent les données pour offrir
               des expériences utilisateur exceptionnelles.
@@ -179,7 +179,7 @@ const About = () => {
                 <ul className="space-y-2 text-muted-foreground">
                   <li>Développement Full-Stack</li>
                   <li>Science des données & Apprentissage automatique</li>
-                  <li>DevOps & CI/CD</li>
+                  
                 </ul>
               </div>
               <div className="glass-card p-6 rounded-lg">

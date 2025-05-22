@@ -16,23 +16,27 @@ const projects = [
   },
   {
     id: 2,
-    title: "Plateforme E-Commerce",
-    description:
-      "Boutique en ligne full-stack avec intégration des paiements, gestion des stocks et analyse des clients.",
-    image: "https://via.placeholder.com/600x400/1a1a2e/ffffff?text=E-Commerce",
-    tags: ["Next.js", "MongoDB", "Stripe", "Tailwind CSS"],
-    github: "https://github.com",
+    title: "Gestion de Paiement",
+    description: "Gestionnaire de Paie des employee.",
+    image: "/Emomar124.png",
+    tags: ["django Rest Api", "Sql-lite", "React", "Tailwind CSS"],
+    github: "https://github.com/mountagaoumarmaiaga/Gestion_paie.git",
     demo: "https://example.com",
   },
   {
     id: 3,
-    title: "Explorateur Blockchain",
+    title: "Plateforme de prediction de prix immobiliers",
     description:
-      "Outil de visualisation en temps réel et d'exploration des transactions et métriques du réseau blockchain.",
-    image:
-      "https://via.placeholder.com/600x400/1a1a2e/ffffff?text=Explorateur+Blockchain",
-    tags: ["TypeScript", "Web3.js", "Express", "PostgreSQL"],
-    github: "https://github.com",
+      "Plateforme de prédiction des prix immobiliers et d'analyse des tendances du marché en temps réel.",
+    image: "Imobilier.jpg", // Assurez-vous que l'image est dans le dossier 'public' sans le préfixe 'public/'
+    tags: [
+      "flask",
+      "mysql",
+      "streamlit",
+      "model de regression linear",
+      
+    ],
+    github: "https://github.com/AissataTraore/immobilier_project.git",
     demo: "https://example.com",
   },
 ];

@@ -1,44 +1,41 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  MapPin,
-  MessageSquare,
-  Send,
-  Twitter,
-} from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, MessageSquare, Send, Twitter } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import SkillsVisualization from "@/components/skills/SkillsVisualization";
+import emailjs from '@emailjs/browser';
+
+// Configuration EmailJS - Remplacer avec vos vraies valeurs
+const emailjsConfig = {
+  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || "votre_service_id",
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "votre_template_id",
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "votre_public_key"
+};
 
 const socialLinks = [
   {
     name: "GitHub",
     icon: <Github size={24} />,
-    href: "https://github.com",
-    color: "hover:text-white",
+    href: "https://github.com/mountagaoumarmaiaga",
+    color: "hover:text-white"
   },
   {
     name: "LinkedIn",
     icon: <Linkedin size={24} />,
-    href: "https://linkedin.com",
-    color: "hover:text-[#0A66C2]",
+    href: "https://www.linkedin.com/in/mountaga-oumar-maiga-182745251/",
+    color: "hover:text-[#0A66C2]"
   },
   {
     name: "Twitter",
     icon: <Twitter size={24} />,
     href: "https://twitter.com",
-    color: "hover:text-[#1DA1F2]",
+    color: "hover:text-[#1DA1F2]"
   },
   {
     name: "Email",
     icon: <Mail size={24} />,
-    href: "mailto:contact@example.com",
-    color: "hover:text-neon-purple",
-  },
+    href: "mailto:mountagaoumarmaiga@gmail.com",
+    color: "hover:text-neon-purple"
+  }
 ];
 
 const Contact = () => {
@@ -46,68 +43,86 @@ const Contact = () => {
     name: "",
     email: "",
     subject: "",
-    message: "",
+    message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!emailjsConfig.publicKey) {
+      console.error("EmailJS public key is missing!");
+      return;
+    }
+    emailjs.init(emailjsConfig.publicKey);
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulation d'envoi du formulaire
-    setTimeout(() => {
+    try {
+      await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          reply_to: formData.email
+        },
+        emailjsConfig.publicKey
+      );
+
       toast({
         title: "Message envoyé !",
-        description: "Merci pour votre message. Je vous répondrai bientôt.",
+        description: "Je vous répondrai dans les plus brefs délais."
       });
+
       setFormData({
         name: "",
         email: "",
         subject: "",
-        message: "",
+        message: ""
       });
+    } catch (error) {
+      console.error("Erreur:", error);
+      toast({
+        title: "Erreur",
+        description: "L'envoi a échoué. Veuillez réessayer.",
+        variant: "destructive"
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      <main className="container mx-auto px-4 pt-32 pb-16">
+      <main className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Entrons en <span className="text-gradient">Contact</span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+            Contactez-<span className="text-gradient">moi</span>
           </h1>
-          <p className="text-xl text-muted-foreground mb-12 max-w-2xl">
-            Vous avez un projet en tête ? Vous souhaitez collaborer ? Ou
-            simplement échanger ? N'hésitez pas à me contacter.
+          <p className="text-xl text-muted-foreground mb-12 text-center max-w-2xl mx-auto">
+            Discutons de votre projet ou simplement échangeons autour d'un café virtuel !
           </p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-            {/* Formulaire de contact */}
-            <div className="glass-card rounded-lg p-6 md:p-8 neon-border">
-              <h2 className="text-2xl font-bold mb-6 flex items-center">
-                <MessageSquare className="mr-2" size={24} />
-                Envoyer un message
-              </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Formulaire */}
+            <div className="glass-card p-8 rounded-xl shadow-lg neon-border">
+              <div className="flex items-center mb-8">
+                <MessageSquare className="text-neon-purple mr-3" size={28} />
+                <h2 className="text-2xl font-bold">Envoyez un message</h2>
+              </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Votre nom
-                  </label>
+                <div className="space-y-2">
+                  <label htmlFor="name" className="block font-medium">Nom complet</label>
                   <input
                     type="text"
                     id="name"
@@ -115,18 +130,13 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="contact-input"
-                    placeholder="Jean Dupont"
+                    className="w-full px-4 py-3 bg-background border border-muted rounded-lg focus:ring-2 focus:ring-neon-purple focus:border-transparent"
+                    placeholder="Votre nom"
                   />
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Adresse e-mail
-                  </label>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block font-medium">Email</label>
                   <input
                     type="email"
                     id="email"
@@ -134,18 +144,13 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="contact-input"
-                    placeholder="jean@example.com"
+                    className="w-full px-4 py-3 bg-background border border-muted rounded-lg focus:ring-2 focus:ring-neon-purple focus:border-transparent"
+                    placeholder="votre@email.com"
                   />
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Sujet
-                  </label>
+                <div className="space-y-2">
+                  <label htmlFor="subject" className="block font-medium">Sujet</label>
                   <input
                     type="text"
                     id="subject"
@@ -153,88 +158,86 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="contact-input"
-                    placeholder="Demande de projet"
+                    className="w-full px-4 py-3 bg-background border border-muted rounded-lg focus:ring-2 focus:ring-neon-purple focus:border-transparent"
+                    placeholder="Objet de votre message"
                   />
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Message
-                  </label>
+                <div className="space-y-2">
+                  <label htmlFor="message" className="block font-medium">Message</label>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    rows={5}
-                    className="contact-input resize-none"
-                    placeholder="Parlez-moi de votre projet ou de votre demande..."
+                    rows={6}
+                    className="w-full px-4 py-3 bg-background border border-muted rounded-lg focus:ring-2 focus:ring-neon-purple focus:border-transparent resize-none"
+                    placeholder="Dites-moi tout..."
                   ></textarea>
                 </div>
 
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-neon-purple hover:bg-neon-purple/90"
+                  className="w-full bg-gradient-to-r from-neon-purple to-neon-blue hover:opacity-90 transition-opacity h-12"
                 >
-                  {isSubmitting ? "Envoi en cours..." : "Envoyer"}
-                  <Send size={16} className="ml-2" />
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Envoi en cours...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center">
+                      Envoyer <Send className="ml-2" size={18} />
+                    </span>
+                  )}
                 </Button>
               </form>
             </div>
 
-            {/* Infos de contact & Visualisation des compétences */}
-            <div className="space-y-8">
-              {/* Visualisation des compétences */}
-              <SkillsVisualization />
-
-              <div className="glass-card rounded-lg p-6">
-                <h2 className="text-2xl font-bold mb-6">Me contacter</h2>
-
+            {/* Informations */}
+            <div className="space-y-6">
+              <div className="glass-card p-8 rounded-xl">
+                <h2 className="text-2xl font-bold mb-6">Mes coordonnées</h2>
+                
                 <div className="space-y-6">
-                  <div className="flex items-start">
-                    <div className="bg-neon-purple/20 p-3 rounded-full mr-4">
-                      <Mail className="text-neon-purple" size={24} />
+                  <div className="flex items-start gap-4">
+                    <div className="bg-neon-purple/20 p-3 rounded-full">
+                      <Mail className="text-neon-purple" size={20} />
                     </div>
                     <div>
-                      <h3 className="font-medium">E-mail</h3>
-                      <a
-                        href="mailto:contact@example.com"
-                        className="text-neon-blue hover:underline"
-                      >
-                        contact@example.com
+                      <h3 className="font-medium">Email</h3>
+                      <a href="mailto:mountagaoumarmaiga@gmail.com" className="text-neon-blue hover:underline">
+                        mountagaoumarmaiga@gmail.com
                       </a>
                     </div>
                   </div>
 
-                  <div className="flex items-start">
-                    <div className="bg-neon-blue/20 p-3 rounded-full mr-4">
-                      <MapPin className="text-neon-blue" size={24} />
+                  <div className="flex items-start gap-4">
+                    <div className="bg-neon-blue/20 p-3 rounded-full">
+                      <MapPin className="text-neon-blue" size={20} />
                     </div>
                     <div>
                       <h3 className="font-medium">Localisation</h3>
-                      <p className="text-muted-foreground">
-                        San Francisco, Californie
-                      </p>
+                      <p className="text-muted-foreground">Bamako, Mali</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-8">
-                  <h3 className="font-medium mb-4">Profils sociaux</h3>
-                  <div className="flex flex-wrap gap-4">
+                  <h3 className="font-medium mb-4">Réseaux sociaux</h3>
+                  <div className="flex flex-wrap gap-3">
                     {socialLinks.map((link) => (
                       <a
                         key={link.name}
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`p-3 glass-card rounded-full transition-all duration-200 hover:scale-110 ${link.color}`}
+                        className={`p-3 glass-card rounded-full transition-all ${link.color} hover:scale-105`}
                         aria-label={link.name}
                       >
                         {link.icon}
@@ -244,22 +247,19 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="glass-card rounded-lg p-6">
-                <h2 className="text-2xl font-bold mb-4">Disponibilité</h2>
-                <p className="text-muted-foreground mb-2">
-                  Je suis actuellement disponible pour des missions freelance et
-                  des collaborations.
-                </p>
-                <div className="flex items-center gap-2">
+              <div className="glass-card p-6 rounded-xl">
+                <div className="flex items-center gap-3">
                   <div className="w-3 h-3 bg-neon-purple rounded-full animate-pulse"></div>
-                  <span>Ouvert aux nouvelles opportunités</span>
+                  <div>
+                    <h3 className="font-bold">Disponibilité</h3>
+                    <p className="text-muted-foreground">Ouvert aux nouvelles opportunités</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

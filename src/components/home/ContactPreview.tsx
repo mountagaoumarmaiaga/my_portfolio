@@ -4,13 +4,13 @@ import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const liensSociaux = [
-  { nom: "GitHub", icone: <Github size={24} />, lien: "https://github.com" },
+  { nom: "GitHub", icone: <Github size={24} />, lien: "https://github.com/mountagaoumarmaiaga" },
   {
     nom: "LinkedIn",
     icone: <Linkedin size={24} />,
     lien: "https://linkedin.com",
   },
-  { nom: "Twitter", icone: <Twitter size={24} />, lien: "https://twitter.com" },
+  { nom: "Twitter", icone: <Twitter size={24} />, lien: "https://www.linkedin.com/in/mountaga-oumar-maiga-182745251/" },
   {
     nom: "Email",
     icone: <Mail size={24} />,
@@ -26,7 +26,7 @@ const AperçuContact = () => {
       <div className="container mx-auto max-w-4xl glass-card rounded-xl p-8 md:p-12 neon-border">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold mb-4">
-            Premons <span className="text-gradient">Contact</span>
+            Prenons <span className="text-gradient">Contact</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
             Intéressé(e) par une collaboration ? Une question sur mon travail ?

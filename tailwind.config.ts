@@ -138,6 +138,10 @@ export default {
 				'blink-caret': {
 					'from, to': { borderColor: 'transparent' },
 					'50%': { borderColor: '#8B5CF6' }
+				},
+				'marquee': {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-100%)' }
 				}
 			},
 			animation: {
@@ -148,7 +152,8 @@ export default {
 				'glow': 'glow 2s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-				'typing': 'typing 3.5s steps(40, end), blink-caret .75s step-end infinite'
+				'typing': 'typing 3.5s steps(40, end), blink-caret .75s step-end infinite',
+				'marquee': 'marquee 25s linear infinite'
 			},
 			fontFamily: {
 				'sans': ['Inter', 'ui-sans-serif', 'system-ui'],

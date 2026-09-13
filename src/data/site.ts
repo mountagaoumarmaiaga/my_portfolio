@@ -15,6 +15,11 @@ export const site = {
    * out of it. `/cv` is real text and prints to a PDF a parser can read.
    */
   cv: "/cv",
+  /**
+   * The production origin. Everything canonical derives from it — metadataBase,
+   * OpenGraph, JSON-LD, the sitemap, robots.txt and the confirmation email — so
+   * this is the single line to change if the Vercel project is ever renamed.
+   */
   url: "https://portfoliomountaga.vercel.app",
 } as const;
 
@@ -35,11 +40,11 @@ export const languages: Array<{ name: I18n; level: I18n }> = [
   { name: { fr: "Khassonké", en: "Khassonke" }, level: { fr: "Langue maternelle", en: "Native" } },
 ];
 
-/**
- * What Mountaga is aiming for, in his own words. Left empty until he writes
- * them — the section simply does not render rather than inventing ambitions.
- */
-export const objectives: I18n = { fr: "", en: "" };
+/** What Mountaga is aiming for, in his own words. */
+export const objectives: I18n = {
+  fr: "Aller chercher de nouvelles opportunités, de nouveaux projets et de nouvelles expériences.",
+  en: "To take on new opportunities, new projects and new experience.",
+};
 
 export interface SocialLink {
   id: "github" | "linkedin" | "whatsapp" | "email";

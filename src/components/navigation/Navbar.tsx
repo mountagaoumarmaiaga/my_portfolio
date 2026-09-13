@@ -57,7 +57,10 @@ export default function Navbar() {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-50 md:top-4">
-      <div className="shell">
+      {/* The sheet is a child of this header and carries z-40, so without a
+          higher z-index of its own the pill — and the close button inside it —
+          is painted over and swallowed by the overlay the moment it opens. */}
+      <div className="shell relative z-50">
         <div
           className={`pointer-events-auto relative flex h-16 items-center overflow-hidden rounded-[28px] border pl-3 transition-colors duration-500 ease-editorial md:pl-4 ${
             scrolled
@@ -128,17 +131,24 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               aria-label={menuOpen ? c.nav.closeMenu : c.nav.openMenu}
-              className="relative z-10 flex h-9 w-9 items-center justify-center rounded-sm border border-hairline-strong lg:hidden"
+              className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-lg border transition-colors duration-300 ease-editorial lg:hidden ${
+                menuOpen
+                  ? "border-mali-green/40 bg-mali-green/[0.12]"
+                  : "border-hairline-strong hover:border-ink-ghost"
+              }`}
             >
-              <span className="flex flex-col items-end gap-[5px]" aria-hidden="true">
+              {/* Both bars are absolutely positioned so that, open, they sit on
+                  the same centre line and rotate about it — an exact cross.
+                  Offsetting them with a flex gap only ever approximates one. */}
+              <span className="relative block h-[18px] w-[18px]" aria-hidden="true">
                 <span
-                  className={`block h-px bg-ink transition-all duration-300 ease-editorial ${
-                    menuOpen ? "w-4 translate-y-[3px] rotate-45" : "w-4"
+                  className={`absolute left-0 block h-[1.5px] rounded-full bg-ink transition-all duration-300 ease-editorial ${
+                    menuOpen ? "top-[8px] w-[18px] rotate-45" : "top-[5px] w-[18px]"
                   }`}
                 />
                 <span
-                  className={`block h-px bg-ink transition-all duration-300 ease-editorial ${
-                    menuOpen ? "w-4 -translate-y-[3px] -rotate-45" : "w-2.5"
+                  className={`absolute left-0 block h-[1.5px] rounded-full bg-ink transition-all duration-300 ease-editorial ${
+                    menuOpen ? "top-[8px] w-[18px] -rotate-45" : "top-[11px] w-[11px]"
                   }`}
                 />
               </span>

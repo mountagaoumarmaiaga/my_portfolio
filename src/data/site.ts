@@ -21,6 +21,8 @@ export const site = {
    * this is the single line to change if the Vercel project is ever renamed.
    */
   url: "https://portfoliomountaga.vercel.app",
+  /** Studio portrait on pure black, so it sits on the site background seamlessly. */
+  photo: "/photo.jpeg",
 } as const;
 
 export const siteCopy: Record<"role" | "availability" | "workMode", I18n> = {

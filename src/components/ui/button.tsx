@@ -1,56 +1,89 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+"use client";
 
-import { cn } from "@/lib/utils"
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
+type Variant = "primary" | "secondary" | "ghost";
+type Size = "md" | "lg";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+const base =
+  "group/btn relative inline-flex items-center justify-center gap-2.5 rounded-md font-medium " +
+  "transition-[background-color,border-color,color,transform] duration-300 ease-editorial " +
+  "disabled:pointer-events-none disabled:opacity-50 active:translate-y-px";
+
+const variants: Record<Variant, string> = {
+  primary: "bg-mali-green text-void hover:bg-mali-greenSoft",
+  secondary: "border border-hairline-strong bg-white/[0.02] text-ink hover:border-white/30 hover:bg-white/[0.05]",
+  ghost: "text-ink-muted hover:text-ink",
+};
+
+const sizes: Record<Size, string> = {
+  md: "h-10 px-4 text-[13px]",
+  lg: "h-12 px-6 text-sm",
+};
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: Variant;
+  size?: Size;
+  children: ReactNode;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant = "primary", size = "md", className, children, ...props }, ref) => (
+    <button ref={ref} className={cn(base, variants[variant], sizes[size], className)} {...props}>
+      {children}
+    </button>
+  ),
+);
+Button.displayName = "Button";
 
-export { Button, buttonVariants }
+export interface ButtonLinkProps {
+  href: string;
+  variant?: Variant;
+  size?: Size;
+  external?: boolean;
+  className?: string;
+  children: ReactNode;
+  "aria-label"?: string;
+}
+
+export function ButtonLink({
+  href,
+  variant = "primary",
+  size = "md",
+  external = false,
+  className,
+  children,
+  ...props
+}: ButtonLinkProps) {
+  return (
+    <a
+      href={href}
+      className={cn(base, variants[variant], sizes[size], className)}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...props}
+    >
+      {children}
+    </a>
+  );
+}
+
+/** Nudges right on hover of the parent button. Decorative — never the only cue. */
+export function ArrowRight({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className={cn("h-3.5 w-3.5 transition-transform duration-300 ease-editorial group-hover/btn:translate-x-1", className)}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+    </svg>
+  );
+}
+
+export default Button;

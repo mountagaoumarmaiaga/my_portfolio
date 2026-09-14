@@ -23,14 +23,17 @@ const fr = {
     title: "Initialisation de l'expérience",
   },
   hero: {
-    eyebrow: "Développeur Fullstack · Data Scientist",
-    titleLines: ["Je construis", "pour le monde,", "depuis Bamako"],
+    /* The name is the headline and the role sits under it, both read from
+       `site`/`siteCopy` rather than restated here — they were duplicated. */
     subtitle:
-      "Je conçois et livre des produits web de bout en bout — et je transforme les données en décisions. Basé au Mali, je travaille avec le monde entier.",
-    primaryCta: "Voir mes projets",
-    secondaryCta: "Me contacter",
+      "Je transforme des idées complexes en produits web, applications mobiles et solutions data prêtes pour la production.",
+    meta: "Basé à Bamako · Disponible en remote · Afrique & international",
+    primaryCta: "Mes projets",
+    secondaryCta: "Contactez-moi",
     scroll: "Défiler pour explorer",
     establishing: "Mise en orbite",
+    showcaseLabel: "En production",
+    showcaseCta: "Voir le projet",
   },
   profile: {
     index: "02",
@@ -241,14 +244,15 @@ const en = {
     title: "Initializing experience",
   },
   hero: {
-    eyebrow: "Fullstack Developer · Data Scientist",
-    titleLines: ["Building for the world,", "from Bamako"],
     subtitle:
-      "I design and ship web products end-to-end — and turn data into decisions. Based in Mali, working worldwide.",
-    primaryCta: "View my work",
+      "I turn complex ideas into web products, mobile applications and data solutions that are ready for production.",
+    meta: "Based in Bamako · Available remotely · Africa & worldwide",
+    primaryCta: "My work",
     secondaryCta: "Get in touch",
     scroll: "Scroll to explore",
     establishing: "Establishing orbit",
+    showcaseLabel: "In production",
+    showcaseCta: "View the project",
   },
   profile: {
     index: "02",
